@@ -23,6 +23,9 @@ class ViewController: NSViewController {
     @IBOutlet weak var dumpLocation: NSTextField!
     @IBOutlet weak var chipArg: NSButton!
     @IBOutlet weak var chipType: NSComboBox!
+    @IBOutlet weak var notPatchedRadioButton: NSButton!
+    @IBOutlet weak var patchedRadioButton: NSButton!
+    
     public var efiPath = String()
     public var mePath = String()
     let defaults = UserDefaults.standard
@@ -32,7 +35,7 @@ class ViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
+        notPatchedRadioButton.state = NSControl.StateValue.on
         // Acquire username for default dump location
         let userName = NSUserName()
         //let fullUserName = NSFullUserName()
@@ -152,8 +155,8 @@ class ViewController: NSViewController {
             let newError = error.joined(separator:" ")
 
             // Print flashrom exit status code
-            outputWindow.textStorage?.append(NSAttributedString(string: "Flashrom Exited with Status: " + String(status) + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.headerTextColor ]))
-            outputWindow.scrollToEndOfDocument(nil)
+            //outputWindow.textStorage?.append(NSAttributedString(string: "Flashrom Exited with Status: " + String(status) + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.headerTextColor ]))
+            //outputWindow.scrollToEndOfDocument(nil)
             
             // Print flashrom terminal output
             if output.count > 0 {
@@ -167,10 +170,15 @@ class ViewController: NSViewController {
                 outputWindow.scrollToEndOfDocument(nil)
             }
             
+            if status == 0 {
             // Print flashrom dumping completed
             outputWindow.textStorage?.append(NSAttributedString(string: "Finished Dumping EFI Chip to: " + dumpLocation.stringValue + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.green ]))
             outputWindow.scrollToEndOfDocument(nil)
-                
+            } else {
+                outputWindow.textStorage?.append(NSAttributedString(string: "ERROR: Flashrom Exited with Status: " + String(status) + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.red ]))
+                outputWindow.scrollToEndOfDocument(nil)
+            
+            }
             // Verification of Dump:
             if VerifyDumpRadioButton.state == .on {
                 // Initialize additional flashrom argument variables for verification
@@ -181,15 +189,15 @@ class ViewController: NSViewController {
                 } else {
                     argSet = [progOption, programmer!, verifyOption, writeLocation]
                 }
-                let (outp, err, stat) = runCommand(cmd: flashromLoc!, args: argSet)
+                let (outp, err, status) = runCommand(cmd: flashromLoc!, args: argSet)
                 
                 // Convert terminal output arrays to text strings
                 let newOut = outp.joined(separator:" ")
                 let newErr = err.joined(separator:" ")
 
                 // Print flashrom exit status code
-                outputWindow.textStorage?.append(NSAttributedString(string: "Flashrom Exited with Status: " + String(stat) + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.headerTextColor ]))
-                outputWindow.scrollToEndOfDocument(nil)
+            //    outputWindow.textStorage?.append(NSAttributedString(string: "Flashrom Exited with Status: " + String(status) + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.headerTextColor ]))
+           //     outputWindow.scrollToEndOfDocument(nil)
                 
                 // Print flashrom terminal output
                 if output.count > 0 {
@@ -202,10 +210,15 @@ class ViewController: NSViewController {
                     outputWindow.textStorage?.append(NSAttributedString(string: newErr + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.red ]))
                     outputWindow.scrollToEndOfDocument(nil)
                 }
-                
+                if status == 0 {
                 // Print flashrom verification completed
                 outputWindow.textStorage?.append(NSAttributedString(string: "Finished Verifying EFI Dump" + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.green ]))
                 outputWindow.scrollToEndOfDocument(nil)
+                } else {
+                    outputWindow.textStorage?.append(NSAttributedString(string: "ERROR: Flashrom Exited with Status: " + String(status) + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.red ]))
+                    outputWindow.scrollToEndOfDocument(nil)
+                
+                }
             }
             
         } else {
@@ -273,8 +286,15 @@ class ViewController: NSViewController {
         }
     }
     
+    @IBAction func patchedSelector(_ sender: Any) {
+        
+        
+    }
     // Patching Process:
     @IBAction func patchStart(sender: AnyObject) {
+
+        patchedRadioButton.state = NSControl.StateValue.on
+        notPatchedRadioButton.state = NSControl.StateValue.off
         // Proceed if EFI File field NOT empty
         if filename_field.stringValue != "" {
             //Reset errorActivated if tripped from previous attempt
@@ -740,6 +760,8 @@ class ViewController: NSViewController {
         CleanMeRadioButton.state = .off
         RemovePassRadioButton.state = .off
         ClearNVRamRadioButton.state = .off
+        notPatchedRadioButton.state = .on
+        patchedRadioButton.state = .off
         outputWindow.textStorage?.append(NSAttributedString(string: "All Options Cleared / Reset" + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.green ]))
         outputWindow.scrollToEndOfDocument(nil)
         

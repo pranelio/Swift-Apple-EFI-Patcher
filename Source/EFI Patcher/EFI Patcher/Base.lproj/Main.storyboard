@@ -801,7 +801,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xXl-WW-6vB">
-                                <rect key="frame" x="206" y="13" width="115" height="32"/>
+                                <rect key="frame" x="264" y="13" width="115" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Write" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="rwJ-UF-YyY">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -949,6 +949,28 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                             </button>
+                            <button identifier="notPatchedRadioButton" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cFl-xL-Os5">
+                                <rect key="frame" x="166" y="22" width="98" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <buttonCell key="cell" type="radio" title="Not patched" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="8Tb-hl-o47">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="patchedSelector:" target="XfG-lQ-9wD" id="rPT-Vm-A0o"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LA0-uj-De6">
+                                <rect key="frame" x="84" y="22" width="72" height="18"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="radio" title="Patched" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="bN0-xN-g7w">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="patchedSelector:" target="XfG-lQ-9wD" id="iqg-Kh-wnR"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </view>
                     <connections>
@@ -962,7 +984,9 @@
                         <outlet property="dumpLocation" destination="mwv-Nb-hFa" id="4Z9-YI-sa7"/>
                         <outlet property="filename_field" destination="Nhy-PM-jDZ" id="MI8-9L-nkO"/>
                         <outlet property="mefilename_field" destination="OAi-tO-cHc" id="WHP-nd-7iz"/>
+                        <outlet property="notPatchedRadioButton" destination="cFl-xL-Os5" id="IRl-se-B1j"/>
                         <outlet property="outputWindow" destination="zt6-YA-ppP" id="sYN-Yi-xPo"/>
+                        <outlet property="patchedRadioButton" destination="LA0-uj-De6" id="5AJ-Lo-Fbm"/>
                         <outlet property="serial_field" destination="si2-eW-tsH" id="JkD-ss-fB9"/>
                     </connections>
                 </viewController>

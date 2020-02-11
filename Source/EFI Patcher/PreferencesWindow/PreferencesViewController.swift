@@ -13,7 +13,6 @@ class PreferencesViewController: NSViewController {
 
     @IBOutlet weak var flashromLocation: NSTextField!
     @IBOutlet weak var programmerConfig: NSComboBox!
-    //@IBOutlet weak var programmerConfig: NSComboBox!
     // Generate List of Programmers
     fileprivate let programmerList = createMenuList(file: "progList", term: "device")
     let defaults = UserDefaults.standard
