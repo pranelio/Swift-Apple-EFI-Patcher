@@ -40,7 +40,7 @@ class ViewController: NSViewController {
         let flashromCheck = URL(fileURLWithPath: defaultFlashromLocation)
         let fileManager = FileManager.default
         // Alert window function
-        func dialogOKCancel(error: String, text: String) -> Bool {
+        func flashromNotFound(error: String, text: String) -> Bool {
             let alert = NSAlert()
             alert.messageText = error
             alert.informativeText = text
@@ -50,9 +50,10 @@ class ViewController: NSViewController {
 
         if fileManager.fileExists(atPath: flashromCheck.path) {
             // do nothing lol
+            // TODO: save the default location to the preferences
         } else {
             // Inform the user that flashrom was not found
-                    dialogOKCancel(error: "Flashrom was not found in the default location", text: "Install Flashrom or enter the location in preferences.")
+                    flashromNotFound(error: "Flashrom was not found in the default location", text: "Install Flashrom or enter the location in preferences.")
         }
         
         notPatchedRadioButton.state = NSControl.StateValue.on
