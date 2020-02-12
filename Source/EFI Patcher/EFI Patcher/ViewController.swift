@@ -35,6 +35,26 @@ class ViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        // Check default flashrom location
+        let defaultFlashromLocation = "/usr/local/Cellar/flashrom/1.1/bin/flashrom"
+        let flashromCheck = URL(fileURLWithPath: defaultFlashromLocation)
+        let fileManager = FileManager.default
+        // Alert window function
+        func dialogOKCancel(error: String, text: String) -> Bool {
+            let alert = NSAlert()
+            alert.messageText = error
+            alert.informativeText = text
+            alert.alertStyle = .critical
+            return alert.runModal() == .alertFirstButtonReturn
+        }
+
+        if fileManager.fileExists(atPath: flashromCheck.path) {
+            // do nothing lol
+        } else {
+            // Inform the user that flashrom was not found
+                    dialogOKCancel(error: "Flashrom was not found in the default location", text: "Install Flashrom or enter the location in preferences.")
+        }
+        
         notPatchedRadioButton.state = NSControl.StateValue.on
         // Acquire username for default dump location
         let userName = NSUserName()
