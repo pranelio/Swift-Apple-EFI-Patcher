@@ -714,7 +714,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView fixedFrame="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YmE-xS-yoZ">
-                                <rect key="frame" x="19" y="81" width="469" height="233"/>
+                                <rect key="frame" x="20" y="81" width="469" height="233"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="pbE-yi-Ku6">
                                     <rect key="frame" x="0.0" y="0.0" width="469" height="233"/>
@@ -971,6 +971,10 @@
                                     <action selector="patchedSelector:" target="XfG-lQ-9wD" id="iqg-Kh-wnR"/>
                                 </connections>
                             </button>
+                            <progressIndicator wantsLayer="YES" fixedFrame="YES" maxValue="100" indeterminate="YES" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="llM-Ji-GjF">
+                                <rect key="frame" x="457" y="36" width="32" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            </progressIndicator>
                         </subviews>
                     </view>
                     <connections>
@@ -983,6 +987,7 @@
                         <outlet property="chipType" destination="sQE-tg-hIQ" id="rak-Wr-mLE"/>
                         <outlet property="dumpLocation" destination="mwv-Nb-hFa" id="4Z9-YI-sa7"/>
                         <outlet property="filename_field" destination="Nhy-PM-jDZ" id="MI8-9L-nkO"/>
+                        <outlet property="flashromProgress" destination="llM-Ji-GjF" id="YOG-lc-WT5"/>
                         <outlet property="mefilename_field" destination="OAi-tO-cHc" id="WHP-nd-7iz"/>
                         <outlet property="notPatchedRadioButton" destination="cFl-xL-Os5" id="IRl-se-B1j"/>
                         <outlet property="outputWindow" destination="zt6-YA-ppP" id="sYN-Yi-xPo"/>

@@ -25,6 +25,7 @@ class ViewController: NSViewController {
     @IBOutlet weak var chipType: NSComboBox!
     @IBOutlet weak var notPatchedRadioButton: NSButton!
     @IBOutlet weak var patchedRadioButton: NSButton!
+    @IBOutlet weak var flashromProgress: NSProgressIndicator!
     
     public var efiPath = String()
     public var mePath = String()
@@ -149,8 +150,12 @@ class ViewController: NSViewController {
 
     // Dump Chip:
     @IBAction func dumpChip(sender: AnyObject) {
+        print ("begin")
         // Verify that Flashrom Location has been entered in preferences
         let flashromLoc = defaults.string(forKey: "FlashromLocation")
+        // Start spinny thingy
+        flashromProgress.startAnimation(self)
+        print ("Start animation")
         if flashromLoc! != "" {
             // Initialize flashrom argument variables
             let progOption = "-p"
@@ -182,7 +187,7 @@ class ViewController: NSViewController {
             // Print flashrom terminal output
             if output.count > 0 {
                 outputWindow.textStorage?.append(NSAttributedString(string: newOutput + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.headerTextColor ]))
-                    outputWindow.scrollToEndOfDocument(nil)
+                outputWindow.scrollToEndOfDocument(nil)
             }
             
             // Print flashrom terminal error output
@@ -198,8 +203,9 @@ class ViewController: NSViewController {
             } else {
                 outputWindow.textStorage?.append(NSAttributedString(string: "ERROR: Flashrom Exited with Status: " + String(status) + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.red ]))
                 outputWindow.scrollToEndOfDocument(nil)
-            
             }
+            //flashromProgress.stopAnimation(self)
+            print ("stop animation")
             // Verification of Dump:
             if VerifyDumpRadioButton.state == .on {
                 // Initialize additional flashrom argument variables for verification
