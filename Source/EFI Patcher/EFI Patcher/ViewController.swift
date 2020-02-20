@@ -154,7 +154,7 @@ class ViewController: NSViewController {
         // Verify that Flashrom Location has been entered in preferences
         let flashromLoc = defaults.string(forKey: "FlashromLocation")
         // Start spinny thingy
-        flashromProgress.startAnimation(self)
+        //flashromProgress.startAnimation(self)
         print ("Start animation")
         if flashromLoc! != "" {
             // Initialize flashrom argument variables
