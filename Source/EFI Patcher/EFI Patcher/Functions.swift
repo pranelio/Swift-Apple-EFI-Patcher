@@ -5,7 +5,6 @@
 //  Created by Sad Pony on 2020-01-29.
 //  Copyright © 2020 None. All rights reserved.
 //
-
 import Foundation
 
 extension Data {
@@ -65,9 +64,8 @@ func searchArray (mainArray: [UInt8], searchSequence: [UInt8]) -> Int {// change
 //Example of how to use searchArray function
 //var fsysArray: [UInt8] = Array(fsys)
 //let result = searchArray(mainArray: dataArray, searchSequence: fsysArray)
-
 // Locate Initial ME Offset searching for ME Headers within entire file
-func findInitialMeRegionOffset (file: NSData, searchItem1: Data, searchItem2: Data) -> Int {
+func findInitialMeRegionOffset (file: NSData, searchItem1: Data, searchItem2: Data, searchItem3: Data) -> Int {
     let searchRange = NSMakeRange(0, file.count)
     let foundRange = file.range(of: searchItem1, in: searchRange)
     let location = NSNotFound
@@ -78,10 +76,16 @@ func findInitialMeRegionOffset (file: NSData, searchItem1: Data, searchItem2: Da
     else if foundRange.location == NSNotFound {
         let foundRange = file.range(of: searchItem2, in: searchRange)
         if foundRange.location != NSNotFound {
-        let location = foundRange.location
-        return location
+            let location = foundRange.location
+            return location
         }
-        
+    }
+    else if foundRange.location == NSNotFound {
+        let foundRange = file.range(of: searchItem3, in: searchRange)
+        if foundRange.location != NSNotFound {
+            let location = foundRange.location
+            return location
+        }
     }
     return location
 }

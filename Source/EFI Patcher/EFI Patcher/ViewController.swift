@@ -50,7 +50,6 @@ class ViewController: NSViewController {
         }
 
         if fileManager.fileExists(atPath: flashromCheck.path) {
-            // do nothing lol
             // TODO: save the default location to the preferences
         } else {
             // Inform the user that flashrom was not found
@@ -146,6 +145,7 @@ class ViewController: NSViewController {
     public var choiceMade = false
     public var efiPathURL = URL(fileURLWithPath: "")
     public var writePathURL = URL(fileURLWithPath: "")
+    public var backupWritePathURL = URL(fileURLWithPath: "")
     public var efiFileExists = true
 
     // Dump Chip:
@@ -153,23 +153,28 @@ class ViewController: NSViewController {
         print ("begin")
         // Verify that Flashrom Location has been entered in preferences
         let flashromLoc = defaults.string(forKey: "FlashromLocation")
-        // Start spinny thingy
-        //flashromProgress.startAnimation(self)
-        print ("Start animation")
+        // Start progress indicator
+        flashromProgress.startAnimation(self)
+        
+        DispatchQueue.main.async {
+            print("current thread: \(Thread.current)")
         if flashromLoc! != "" {
+            // Print flashrom started
+            self.outputWindow.textStorage?.append(NSAttributedString(string: "Flashrom started " + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.green ]))
+            self.outputWindow.scrollToEndOfDocument(nil)
             // Initialize flashrom argument variables
             let progOption = "-p"
-            let programmer = defaults.string(forKey: "ProgrammerConfig")
+            let programmer = self.defaults.string(forKey: "ProgrammerConfig")
             var chipOption = String()
             var chip = String()
-            if chipArg.state == .on {
+            if self.chipArg.state == .on {
                 chipOption = "-c"
-                chip = chipType.stringValue
+                chip = self.chipType.stringValue
             }
             let readOption = "-r"
-            let writeLocation = dumpLocation.stringValue
+            let writeLocation = self.dumpLocation.stringValue
             var argumentSet = [String]()
-            if chipArg.state == .on {
+            if self.chipArg.state == .on {
                 argumentSet = [progOption, programmer!, chipOption, chip, readOption, writeLocation]
             } else {
                 argumentSet = [progOption, programmer!, readOption, writeLocation]
@@ -186,32 +191,32 @@ class ViewController: NSViewController {
             
             // Print flashrom terminal output
             if output.count > 0 {
-                outputWindow.textStorage?.append(NSAttributedString(string: newOutput + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.headerTextColor ]))
-                outputWindow.scrollToEndOfDocument(nil)
+                self.outputWindow.textStorage?.append(NSAttributedString(string: newOutput + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.headerTextColor ]))
+                self.outputWindow.scrollToEndOfDocument(nil)
             }
             
             // Print flashrom terminal error output
             if error.count > 0 {
-                outputWindow.textStorage?.append(NSAttributedString(string: newError + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.red ]))
-                outputWindow.scrollToEndOfDocument(nil)
+                self.outputWindow.textStorage?.append(NSAttributedString(string: newError + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.red ]))
+                self.outputWindow.scrollToEndOfDocument(nil)
             }
             
             if status == 0 {
             // Print flashrom dumping completed
-            outputWindow.textStorage?.append(NSAttributedString(string: "Finished Dumping EFI Chip to: " + dumpLocation.stringValue + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.green ]))
-            outputWindow.scrollToEndOfDocument(nil)
+                self.outputWindow.textStorage?.append(NSAttributedString(string: "Finished Dumping EFI Chip to: " + self.dumpLocation.stringValue + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.green ]))
+                self.outputWindow.scrollToEndOfDocument(nil)
             } else {
-                outputWindow.textStorage?.append(NSAttributedString(string: "ERROR: Flashrom Exited with Status: " + String(status) + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.red ]))
-                outputWindow.scrollToEndOfDocument(nil)
+                self.outputWindow.textStorage?.append(NSAttributedString(string: "ERROR: Flashrom Exited with Status: " + String(status) + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.red ]))
+                self.outputWindow.scrollToEndOfDocument(nil)
             }
-            //flashromProgress.stopAnimation(self)
-            print ("stop animation")
+            self.flashromProgress.stopAnimation(self)
+            
             // Verification of Dump:
-            if VerifyDumpRadioButton.state == .on {
+            if self.VerifyDumpRadioButton.state == .on {
                 // Initialize additional flashrom argument variables for verification
                 let verifyOption = "-v"
                 var argSet = [String]()
-                if chipArg.state == .on {
+                if self.chipArg.state == .on {
                     argSet = [progOption, programmer!, chipOption, chip, verifyOption, writeLocation]
                 } else {
                     argSet = [progOption, programmer!, verifyOption, writeLocation]
@@ -228,36 +233,36 @@ class ViewController: NSViewController {
                 
                 // Print flashrom terminal output
                 if output.count > 0 {
-                    outputWindow.textStorage?.append(NSAttributedString(string: newOut + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.headerTextColor ]))
-                    outputWindow.scrollToEndOfDocument(nil)
+                    self.outputWindow.textStorage?.append(NSAttributedString(string: newOut + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.headerTextColor ]))
+                    self.outputWindow.scrollToEndOfDocument(nil)
                 }
                 
                 // Print flashrom terminal error output
                 if error.count > 0 {
-                    outputWindow.textStorage?.append(NSAttributedString(string: newErr + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.red ]))
-                    outputWindow.scrollToEndOfDocument(nil)
+                    self.outputWindow.textStorage?.append(NSAttributedString(string: newErr + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.red ]))
+                    self.outputWindow.scrollToEndOfDocument(nil)
                 }
                 if status == 0 {
                 // Print flashrom verification completed
-                outputWindow.textStorage?.append(NSAttributedString(string: "Finished Verifying EFI Dump" + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.green ]))
-                outputWindow.scrollToEndOfDocument(nil)
+                    self.outputWindow.textStorage?.append(NSAttributedString(string: "Finished Verifying EFI Dump" + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.green ]))
+                    self.outputWindow.scrollToEndOfDocument(nil)
                 } else {
-                    outputWindow.textStorage?.append(NSAttributedString(string: "ERROR: Flashrom Exited with Status: " + String(status) + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.red ]))
-                    outputWindow.scrollToEndOfDocument(nil)
+                    self.outputWindow.textStorage?.append(NSAttributedString(string: "ERROR: Flashrom Exited with Status: " + String(status) + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.red ]))
+                    self.outputWindow.scrollToEndOfDocument(nil)
                 
                 }
             }
             
         } else {
             // Print flashrom verification completed
-            outputWindow.textStorage?.append(NSAttributedString(string: "Unable to Locate Flashrom. Please set the Flashrom Location in Preferences. " + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.red ]))
-            outputWindow.scrollToEndOfDocument(nil)
+            self.outputWindow.textStorage?.append(NSAttributedString(string: "Unable to Locate Flashrom. Please set the Flashrom Location in Preferences. " + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.red ]))
+            self.outputWindow.scrollToEndOfDocument(nil)
         }
         
         // Auto-populate EFI file field with newly dumped file ##### fix????
-        filename_field.stringValue = dumpLocation.stringValue
+            self.filename_field.stringValue = self.dumpLocation.stringValue
     }
-    
+    }
     // Write Chip:
     @IBAction func writeChip(sender: AnyObject) {
         // Verify that Flashrom Location has been entered in preferences
@@ -274,7 +279,7 @@ class ViewController: NSViewController {
                 chip = chipType.stringValue
             }
             let writeOption = "-w"
-            let readLocation = filename_field.stringValue + "_patched.bin"
+            let readLocation = filename_field.stringValue
             var argumentSet = [String]()
             if chipArg.state == .on {
                 argumentSet = [progOption, programmer!, chipOption, chip, writeOption, readLocation]
@@ -333,8 +338,10 @@ class ViewController: NSViewController {
             // Acquire Path to EFI File (from auto-populate or user selection)
             if efiPath != "" {
                 efiPathURL = URL(fileURLWithPath: efiPath)
+                backupWritePathURL = URL(fileURLWithPath: efiPath + ".bak")
             } else {
                 efiPathURL = URL(fileURLWithPath: filename_field.stringValue)
+                backupWritePathURL = URL(fileURLWithPath: filename_field.stringValue + ".bak")
             }
             
             // Get contents of EFI File
@@ -344,6 +351,12 @@ class ViewController: NSViewController {
             // If file exists read contents of file into data variable
             if fileExists == true {
                 data = try! NSMutableData(contentsOf: efiPathURL)
+                // create backup
+                let fileManager = FileManager.default
+                fileManager.createFile(atPath: backupWritePathURL.path, contents: nil, attributes: nil)
+                let fileHandle = try! FileHandle(forWritingTo: backupWritePathURL)
+                fileHandle.write(data as Data)
+                fileHandle.closeFile()
                 //let data: NSMutableData? = NSMutableData(contentsOf: efiPathURL)
                 //let filesize = data!.count
                 //var dataArray: [UInt8] = Array(data!)
@@ -509,14 +522,16 @@ class ViewController: NSViewController {
                         let meSize = mePatch!.count
                         
                         // ME Region Header Bytes to Search For
-                        var meRegionBytesV1 : [UInt8] = [ 0x20, 0x20, 0x80, 0x0F, 0x40, 0x00, 0x00, 0x24, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x24, 0x46, 0x50, 0x54  ]
+                        var meRegionBytesV1 : [UInt8] = [ 0x20, 0x20, 0x80, 0x0F, 0x40, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x24, 0x46, 0x50, 0x54 ]
                         let meRegionV1 = Data(bytes: &meRegionBytesV1, count: meRegionBytesV1.count)
-
-                        var meRegionBytesV2 : [UInt8] = [ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x24, 0x46, 0x50, 0x54 ]
+                        
+                        var meRegionBytesV2 : [UInt8] = [ 0x20, 0x20, 0x80, 0x0F, 0x40, 0x00, 0x00, 0x24, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x24, 0x46, 0x50, 0x54  ]
                         let meRegionV2 = Data(bytes: &meRegionBytesV2, count: meRegionBytesV2.count)
+                        var meRegionBytesV3 : [UInt8] = [ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x24, 0x46, 0x50, 0x54 ]
+                        let meRegionV3 = Data(bytes: &meRegionBytesV3, count: meRegionBytesV3.count)
                         
                         // Search for ME Region Offset
-                        let meRegionOffset = findInitialMeRegionOffset (file: data, searchItem1: meRegionV1, searchItem2: meRegionV2)
+                        let meRegionOffset = findInitialMeRegionOffset (file: data, searchItem1: meRegionV1, searchItem2: meRegionV2, searchItem3: meRegionV3)
                         
                         // Clean ME Region (replace with *.rgn or *.bin file)
                         patched1 = patchBytesRaw (file: data, toReplace: meDataPtr, start: meRegionOffset, end: (meSize + meRegionOffset))
@@ -736,17 +751,16 @@ class ViewController: NSViewController {
                     // Acquite Path of dumped file or opened file
                     // attach "_patched.bin" ot original name and use for write name
                     if efiPath != "" {
-                        writePathURL = URL(fileURLWithPath: efiPath + "_patched.bin")
+                        writePathURL = URL(fileURLWithPath: efiPath)
                     } else {
-                        writePathURL = URL(fileURLWithPath: filename_field.stringValue + "_patched.bin")
+                        writePathURL = URL(fileURLWithPath: filename_field.stringValue)
                     }
                     
-                    // Write Newly Patch File to Disk
-                    let fileManager = FileManager.default
+                    // Write Patched File
                     fileManager.createFile(atPath: writePathURL.path, contents: nil, attributes: nil)
-                    let fileHandle = try! FileHandle(forWritingTo: writePathURL)
-                    fileHandle.write(finalPatched as Data)
-                    fileHandle.closeFile()
+                    let fileHandle2 = try! FileHandle(forWritingTo: writePathURL)
+                    fileHandle2.write(finalPatched as Data)
+                    fileHandle2.closeFile()
                     
                     // Print Writing Status
                     outputWindow.textStorage?.append(NSAttributedString(string: "Finished" + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.green ]))

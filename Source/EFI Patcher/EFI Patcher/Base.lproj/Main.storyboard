@@ -971,7 +971,7 @@
                                     <action selector="patchedSelector:" target="XfG-lQ-9wD" id="iqg-Kh-wnR"/>
                                 </connections>
                             </button>
-                            <progressIndicator wantsLayer="YES" fixedFrame="YES" maxValue="100" indeterminate="YES" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="llM-Ji-GjF">
+                            <progressIndicator wantsLayer="YES" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" indeterminate="YES" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="llM-Ji-GjF">
                                 <rect key="frame" x="457" y="36" width="32" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </progressIndicator>
