@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15705"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16096"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -714,13 +714,13 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView fixedFrame="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YmE-xS-yoZ">
-                                <rect key="frame" x="20" y="81" width="469" height="233"/>
+                                <rect key="frame" x="20" y="62" width="469" height="233"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <clipView key="contentView" ambiguous="YES" drawsBackground="NO" copiesOnScroll="NO" id="pbE-yi-Ku6">
+                                <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="pbE-yi-Ku6">
                                     <rect key="frame" x="0.0" y="0.0" width="469" height="233"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <textView ambiguous="YES" editable="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="zt6-YA-ppP">
+                                        <textView editable="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="zt6-YA-ppP">
                                             <rect key="frame" x="0.0" y="0.0" width="469" height="233"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -740,19 +740,8 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RCZ-Pt-QxN">
-                                <rect key="frame" x="264" y="40" width="115" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="Patch" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="oaJ-V5-dxe">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="patchStartWithSender:" target="XfG-lQ-9wD" id="f6L-hs-p7F"/>
-                                </connections>
-                            </button>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mwv-Nb-hFa">
-                                <rect key="frame" x="143" y="545" width="344" height="21"/>
+                                <rect key="frame" x="144" y="539" width="344" height="21"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="rlx-2K-pwZ">
                                     <font key="font" metaFont="system"/>
@@ -761,7 +750,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NgL-uW-Spv">
-                                <rect key="frame" x="17" y="545" width="93" height="16"/>
+                                <rect key="frame" x="16" y="542" width="116" height="16"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Save Location:" id="ylp-uk-2Y6">
                                     <font key="font" metaFont="system"/>
@@ -769,17 +758,6 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JGo-eN-JOa">
-                                <rect key="frame" x="405" y="511" width="90" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="Read" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Y1p-Rk-Lee">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="dumpChipWithSender:" target="XfG-lQ-9wD" id="1pU-0w-ss6"/>
-                                </connections>
-                            </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="G4c-4c-6gW">
                                 <rect key="frame" x="16" y="593" width="90" height="16"/>
                                 <autoresizingMask key="autoresizingMask"/>
@@ -790,7 +768,7 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="l2o-OD-wse">
-                                <rect key="frame" x="149" y="40" width="115" height="32"/>
+                                <rect key="frame" x="12" y="2" width="115" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Reset" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="VAF-09-3B2">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -800,19 +778,8 @@
                                     <action selector="resetWithSender:" target="XfG-lQ-9wD" id="ywj-TB-wUy"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xXl-WW-6vB">
-                                <rect key="frame" x="264" y="13" width="115" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="Write" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="rwJ-UF-YyY">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="writeChipWithSender:" target="XfG-lQ-9wD" id="C2l-jY-CkC"/>
-                                </connections>
-                            </button>
                             <comboBox verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sQE-tg-hIQ">
-                                <rect key="frame" x="143" y="567" width="348" height="25"/>
+                                <rect key="frame" x="143" y="564" width="348" height="25"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" title="Chip Type" drawsBackground="YES" numberOfVisibleItems="5" id="wWH-nL-rQ3">
                                     <font key="font" metaFont="system"/>
@@ -896,7 +863,7 @@
                                 </buttonCell>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9L1-rc-Lvn">
-                                <rect key="frame" x="405" y="458" width="90" height="32"/>
+                                <rect key="frame" x="404" y="439" width="90" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Open File" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="g1o-T3-VgP">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -907,7 +874,7 @@
                                 </connections>
                             </button>
                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Nhy-PM-jDZ">
-                                <rect key="frame" x="125" y="465" width="277" height="21"/>
+                                <rect key="frame" x="144" y="475" width="344" height="21"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="gcn-zm-HyO">
                                     <font key="font" metaFont="system"/>
@@ -916,7 +883,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sWd-Wf-9eh">
-                                <rect key="frame" x="17" y="465" width="102" height="16"/>
+                                <rect key="frame" x="18" y="478" width="102" height="16"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Original EFI File:" id="O72-xa-fsO">
                                     <font key="font" metaFont="system"/>
@@ -925,9 +892,9 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="25g-Yd-fm6">
-                                <rect key="frame" x="470" y="9" width="29" height="16"/>
+                                <rect key="frame" x="470" y="9" width="26" height="16"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="v1.0" id="lw7-wn-wZ8">
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="v1.1" id="lw7-wn-wZ8">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -941,38 +908,53 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                             </button>
+                            <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="WOZ-Jh-6xb">
+                                <rect key="frame" x="20" y="502" width="469" height="5"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            </box>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g0M-29-0Hz">
-                                <rect key="frame" x="347" y="516" width="58" height="20"/>
+                                <rect key="frame" x="16" y="510" width="58" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="check" title="Verify" bezelStyle="regularSquare" imagePosition="left" inset="2" id="5IJ-Xh-Tav">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                             </button>
-                            <button identifier="notPatchedRadioButton" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cFl-xL-Os5">
-                                <rect key="frame" x="166" y="22" width="98" height="18"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <buttonCell key="cell" type="radio" title="Not patched" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="8Tb-hl-o47">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RCZ-Pt-QxN">
+                                <rect key="frame" x="350" y="297" width="90" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Patch" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="oaJ-V5-dxe">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="patchedSelector:" target="XfG-lQ-9wD" id="rPT-Vm-A0o"/>
+                                    <action selector="patchStartWithSender:" target="XfG-lQ-9wD" id="f6L-hs-p7F"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LA0-uj-De6">
-                                <rect key="frame" x="84" y="22" width="72" height="18"/>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JGo-eN-JOa">
+                                <rect key="frame" x="350" y="503" width="90" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="radio" title="Patched" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="bN0-xN-g7w">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                <buttonCell key="cell" type="push" title="Read" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Y1p-Rk-Lee">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="patchedSelector:" target="XfG-lQ-9wD" id="iqg-Kh-wnR"/>
+                                    <action selector="dumpChipWithSender:" target="XfG-lQ-9wD" id="1pU-0w-ss6"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xXl-WW-6vB">
+                                <rect key="frame" x="350" y="27" width="90" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Write" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="rwJ-UF-YyY">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="writeChipWithSender:" target="XfG-lQ-9wD" id="C2l-jY-CkC"/>
                                 </connections>
                             </button>
                             <progressIndicator wantsLayer="YES" fixedFrame="YES" maxValue="100" displayedWhenStopped="NO" indeterminate="YES" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="llM-Ji-GjF">
-                                <rect key="frame" x="457" y="36" width="32" height="32"/>
+                                <rect key="frame" x="238" y="20" width="32" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </progressIndicator>
                         </subviews>
@@ -989,9 +971,7 @@
                         <outlet property="filename_field" destination="Nhy-PM-jDZ" id="MI8-9L-nkO"/>
                         <outlet property="flashromProgress" destination="llM-Ji-GjF" id="YOG-lc-WT5"/>
                         <outlet property="mefilename_field" destination="OAi-tO-cHc" id="WHP-nd-7iz"/>
-                        <outlet property="notPatchedRadioButton" destination="cFl-xL-Os5" id="IRl-se-B1j"/>
                         <outlet property="outputWindow" destination="zt6-YA-ppP" id="sYN-Yi-xPo"/>
-                        <outlet property="patchedRadioButton" destination="LA0-uj-De6" id="5AJ-Lo-Fbm"/>
                         <outlet property="serial_field" destination="si2-eW-tsH" id="JkD-ss-fB9"/>
                     </connections>
                 </viewController>

@@ -56,11 +56,10 @@ class ViewController: NSViewController {
                     flashromNotFound(error: "Flashrom was not found in the default location", text: "Install Flashrom or enter the location in preferences.")
         }
         
-        notPatchedRadioButton.state = NSControl.StateValue.on
         // Acquire username for default dump location
         let userName = NSUserName()
         //let fullUserName = NSFullUserName()
-        dumpLocation.stringValue = "/Users/" + userName + "/Desktop/firmware_dump.bin"
+        dumpLocation.stringValue = "/Users/" + userName + "/Desktop/Firmware Dumps/firmware_dump.bin"
         
         // Populate Chip Type Dropdown List
         chipType.removeAllItems()
@@ -150,7 +149,7 @@ class ViewController: NSViewController {
 
     // Dump Chip:
     @IBAction func dumpChip(sender: AnyObject) {
-        print ("begin")
+        print ("begin read")
         // Verify that Flashrom Location has been entered in preferences
         let flashromLoc = defaults.string(forKey: "FlashromLocation")
         // Start progress indicator
@@ -265,23 +264,31 @@ class ViewController: NSViewController {
     }
     // Write Chip:
     @IBAction func writeChip(sender: AnyObject) {
+        
+        print ("begin write")
+
         // Verify that Flashrom Location has been entered in preferences
         let flashromLoc = defaults.string(forKey: "FlashromLocation")
+        // Start progress indicator
+        flashromProgress.startAnimation(self)
+        
+        DispatchQueue.main.async {
+            print("current thread: \(Thread.current)")
         if flashromLoc! != "" {
             
             // Initialize flashrom argument variables
             let progOption = "-p"
-            let programmer = defaults.string(forKey: "ProgrammerConfig")
+            let programmer = self.defaults.string(forKey: "ProgrammerConfig")
             var chipOption = String()
             var chip = String()
-            if chipArg.state == .on {
+            if self.chipArg.state == .on {
                 chipOption = "-c"
-                chip = chipType.stringValue
+                chip = self.chipType.stringValue
             }
             let writeOption = "-w"
-            let readLocation = filename_field.stringValue
+            let readLocation = self.filename_field.stringValue
             var argumentSet = [String]()
-            if chipArg.state == .on {
+            if self.chipArg.state == .on {
                 argumentSet = [progOption, programmer!, chipOption, chip, writeOption, readLocation]
             } else {
                 argumentSet = [progOption, programmer!, writeOption, readLocation]
@@ -293,31 +300,33 @@ class ViewController: NSViewController {
             let newError = error.joined(separator:" ")
 
             // Print flashrom exit status code
-            outputWindow.textStorage?.append(NSAttributedString(string: "Flashrom Exited with Status: " + String(status) + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.headerTextColor ]))
-            outputWindow.scrollToEndOfDocument(nil)
+            self.outputWindow.textStorage?.append(NSAttributedString(string: "Flashrom Exited with Status: " + String(status) + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.headerTextColor ]))
+            self.outputWindow.scrollToEndOfDocument(nil)
             
             // Print flashrom terminal output
             if output.count > 0 {
-                outputWindow.textStorage?.append(NSAttributedString(string: newOutput + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.headerTextColor ]))
-                outputWindow.scrollToEndOfDocument(nil)
+                self.outputWindow.textStorage?.append(NSAttributedString(string: newOutput + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.headerTextColor ]))
+                self.outputWindow.scrollToEndOfDocument(nil)
             }
             
             // Print flashrom terminal error output
             if error.count > 0 {
-                outputWindow.textStorage?.append(NSAttributedString(string: newError + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.red ]))
-                outputWindow.scrollToEndOfDocument(nil)
+                self.outputWindow.textStorage?.append(NSAttributedString(string: newError + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.red ]))
+                self.outputWindow.scrollToEndOfDocument(nil)
             }
             
             // Print flashrom writing completed
-            outputWindow.textStorage?.append(NSAttributedString(string: "Finished Writing Patched EFI File to Chip" + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.green ]))
-            outputWindow.scrollToEndOfDocument(nil)
+            self.outputWindow.textStorage?.append(NSAttributedString(string: "Finished Writing Patched EFI File to Chip" + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.green ]))
+            self.outputWindow.scrollToEndOfDocument(nil)
         } else {
             // Print flashrom verification completed
-            outputWindow.textStorage?.append(NSAttributedString(string: "Unable to Locate Flashrom. Please set the Flashrom Location in Preferences. " + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.red ]))
-            outputWindow.scrollToEndOfDocument(nil)
+            self.outputWindow.textStorage?.append(NSAttributedString(string: "Unable to Locate Flashrom. Please set the Flashrom Location in Preferences. " + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.red ]))
+            self.outputWindow.scrollToEndOfDocument(nil)
         }
+            self.flashromProgress.stopAnimation(self)
+
     }
-    
+    }
     @IBAction func patchedSelector(_ sender: Any) {
         
         
@@ -325,8 +334,8 @@ class ViewController: NSViewController {
     // Patching Process:
     @IBAction func patchStart(sender: AnyObject) {
 
-        patchedRadioButton.state = NSControl.StateValue.on
-        notPatchedRadioButton.state = NSControl.StateValue.off
+        //patchedRadioButton.state = NSControl.StateValue.on
+        //notPatchedRadioButton.state = NSControl.StateValue.off
         // Proceed if EFI File field NOT empty
         if filename_field.stringValue != "" {
             //Reset errorActivated if tripped from previous attempt
@@ -801,8 +810,6 @@ class ViewController: NSViewController {
         CleanMeRadioButton.state = .off
         RemovePassRadioButton.state = .off
         ClearNVRamRadioButton.state = .off
-        notPatchedRadioButton.state = .on
-        patchedRadioButton.state = .off
         outputWindow.textStorage?.append(NSAttributedString(string: "All Options Cleared / Reset" + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.green ]))
         outputWindow.scrollToEndOfDocument(nil)
         
