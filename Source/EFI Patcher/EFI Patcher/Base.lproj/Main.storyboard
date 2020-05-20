@@ -964,11 +964,11 @@
                         </subviews>
                     </view>
                     <connections>
-                        <outlet property="ChangeSerialRadioButton" destination="5OX-WD-uKw" id="ncq-Fc-7YP"/>
-                        <outlet property="CleanMeRadioButton" destination="TxS-xa-u1T" id="dHv-BU-fiv"/>
-                        <outlet property="ClearNVRamRadioButton" destination="cX2-Ve-jE0" id="Br5-OD-vk7"/>
-                        <outlet property="RemovePassRadioButton" destination="BKw-dl-7F3" id="ndb-NN-y78"/>
-                        <outlet property="VerifyDumpRadioButton" destination="g0M-29-0Hz" id="qcX-Bw-uu9"/>
+                        <outlet property="ChangeSerialCheckBox" destination="5OX-WD-uKw" id="ncq-Fc-7YP"/>
+                        <outlet property="CleanMeCheckBox" destination="TxS-xa-u1T" id="dHv-BU-fiv"/>
+                        <outlet property="ClearNVRamCheckBox" destination="cX2-Ve-jE0" id="Br5-OD-vk7"/>
+                        <outlet property="RemovePassCheckBox" destination="BKw-dl-7F3" id="ndb-NN-y78"/>
+                        <outlet property="VerifyDumpCheckBox" destination="g0M-29-0Hz" id="qcX-Bw-uu9"/>
                         <outlet property="chipArg" destination="r4R-Dg-npz" id="wrO-my-TLL"/>
                         <outlet property="chipType" destination="sQE-tg-hIQ" id="rak-Wr-mLE"/>
                         <outlet property="dumpLocation" destination="mwv-Nb-hFa" id="4Z9-YI-sa7"/>

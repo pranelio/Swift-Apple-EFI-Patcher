@@ -14,17 +14,15 @@ class ViewController: NSViewController {
     @IBOutlet weak var filename_field: NSTextField!
     @IBOutlet weak var serial_field: NSTextField!
     @IBOutlet weak var mefilename_field: NSTextField!
-    @IBOutlet weak var ChangeSerialRadioButton: NSButton!
-    @IBOutlet weak var CleanMeRadioButton: NSButton!
-    @IBOutlet weak var RemovePassRadioButton: NSButton!
-    @IBOutlet weak var ClearNVRamRadioButton: NSButton!
-    @IBOutlet weak var VerifyDumpRadioButton: NSButton!
+    @IBOutlet weak var ChangeSerialCheckBox: NSButton!
+    @IBOutlet weak var CleanMeCheckBox: NSButton!
+    @IBOutlet weak var RemovePassCheckBox: NSButton!
+    @IBOutlet weak var ClearNVRamCheckBox: NSButton!
+    @IBOutlet weak var VerifyDumpCheckBox: NSButton!
     @IBOutlet weak var outputWindow: NSTextView!
     @IBOutlet weak var dumpLocation: NSTextField!
     @IBOutlet weak var chipArg: NSButton!
     @IBOutlet weak var chipType: NSComboBox!
-    @IBOutlet weak var notPatchedRadioButton: NSButton!
-    @IBOutlet weak var patchedRadioButton: NSButton!
     @IBOutlet weak var flashromProgress: NSProgressIndicator!
     
     public var efiPath = String()
@@ -211,7 +209,7 @@ class ViewController: NSViewController {
             self.flashromProgress.stopAnimation(self)
             
             // Verification of Dump:
-            if self.VerifyDumpRadioButton.state == .on {
+            if self.VerifyDumpCheckBox.state == .on {
                 // Initialize additional flashrom argument variables for verification
                 let verifyOption = "-v"
                 var argSet = [String]()
@@ -334,8 +332,6 @@ class ViewController: NSViewController {
     // Patching Process:
     @IBAction func patchStart(sender: AnyObject) {
 
-        //patchedRadioButton.state = NSControl.StateValue.on
-        //notPatchedRadioButton.state = NSControl.StateValue.off
         // Proceed if EFI File field NOT empty
         if filename_field.stringValue != "" {
             //Reset errorActivated if tripped from previous attempt
@@ -509,7 +505,7 @@ class ViewController: NSViewController {
                 
                 // Begin Patching Process
                 // Print that patching has begun
-                if errorActivated == false && CleanMeRadioButton.state == .on || ChangeSerialRadioButton.state == .on || RemovePassRadioButton.state == .on || ClearNVRamRadioButton.state == .on {
+                if errorActivated == false && CleanMeCheckBox.state == .on || ChangeSerialCheckBox.state == .on || RemovePassCheckBox.state == .on || ClearNVRamCheckBox.state == .on {
                     outputWindow.textStorage?.append(NSAttributedString(string: "Patching..." + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.headerTextColor ]))
                     outputWindow.scrollToEndOfDocument(nil)
                 } else {
@@ -519,9 +515,9 @@ class ViewController: NSViewController {
                 
                 }
                 
-                // If ME Region Patch Radio Button on and no error activate
+                // If ME Region Patch check box on and no error activate
                 // Begin patching ME Region
-                if CleanMeRadioButton.state == .on && errorActivated == false {
+                if CleanMeCheckBox.state == .on && errorActivated == false {
                     // Activate Choice Selection counter
                     choiceMade = true
                     
@@ -575,7 +571,7 @@ class ViewController: NSViewController {
                 
                 // If Change Serial # checkbox on and no error activate
                 // Begin patching Serial & Correcting CRC32 for new Serial
-                if ChangeSerialRadioButton.state == .on && errorActivated == false {
+                if ChangeSerialCheckBox.state == .on && errorActivated == false {
                     // Activate Choice Selection Counter
                     choiceMade = true
                     // If New Serial Field NOT empty and Entered serial is 12 Characters
@@ -585,7 +581,7 @@ class ViewController: NSViewController {
                         let patch_ssnPtr = patch_ssn.bytes
                         
                         // If previous ME Region Selections is ON
-                        if CleanMeRadioButton.state == .on {
+                        if CleanMeCheckBox.state == .on {
                             // If Both SSN and ssn fields exist
                             if serialUpperCaseOffset != NSNotFound {
                                 patchedLowerCase = patchBytesRaw (file: patched1, toReplace: patch_ssnPtr, start: (serialOffset + 5), end: (serialOffset + 17))
@@ -644,9 +640,9 @@ class ViewController: NSViewController {
                     }
                 }
                 
-                // If Remove Firmware Lock Radio Button ON and no error activate
+                // If Remove Firmware Lock check box ON and no error activate
                 // Begin Removing Firmware Lock - fill section with 0xFF
-                if RemovePassRadioButton.state == .on && errorActivated == false {
+                if RemovePassCheckBox.state == .on && errorActivated == false {
                     // Activate Choice Selection Counter
                     choiceMade = true
                     
@@ -673,11 +669,11 @@ class ViewController: NSViewController {
                         let svsFillBytes = svsFill.bytes
                         
                         // Account for Previous Selections and Patch Firmware Lock Area
-                        if CleanMeRadioButton.state == .on && ChangeSerialRadioButton.state == .on {
+                        if CleanMeCheckBox.state == .on && ChangeSerialCheckBox.state == .on {
                             patched3 = patchBytesRaw (file: patched2, toReplace: svsFillBytes, start: lockStartOffset, end: (lockEndOffset - 1))
-                        }else if CleanMeRadioButton.state == .on && ChangeSerialRadioButton.state == .off {
+                        }else if CleanMeCheckBox.state == .on && ChangeSerialCheckBox.state == .off {
                             patched3 = patchBytesRaw (file: patched1, toReplace: svsFillBytes, start: lockStartOffset, end: (lockEndOffset - 1))
-                        }else if CleanMeRadioButton.state == .off && ChangeSerialRadioButton.state == .on {
+                        }else if CleanMeCheckBox.state == .off && ChangeSerialCheckBox.state == .on {
                             patched3 = patchBytesRaw (file: patched2, toReplace: svsFillBytes, start: lockStartOffset, end: (lockEndOffset - 1))
                         } else {
                             patched3 = patchBytesRaw (file: data, toReplace: svsFillBytes, start: lockStartOffset, end: (lockEndOffset - 1))
@@ -698,9 +694,9 @@ class ViewController: NSViewController {
                     }
                 }
                 
-                // If Clear NVRAM Radio Button ON and no error activate
+                // If Clear NVRAM check box ON and no error activate
                 // Begin Clearing NVRAM - fill section with 0xFF
-                if ClearNVRamRadioButton.state == .on && errorActivated == false {
+                if ClearNVRamCheckBox.state == .on && errorActivated == false {
                     // Activate Choice Selection Counter
                     choiceMade = true
                     
@@ -727,17 +723,17 @@ class ViewController: NSViewController {
                         let vssFillBytes = vssFill.bytes
                                
                         // Account for Previous Selections and Clean NVRAM Area
-                        if CleanMeRadioButton.state == .on && ChangeSerialRadioButton.state == .on && RemovePassRadioButton.state == .on {
+                        if CleanMeCheckBox.state == .on && ChangeSerialCheckBox.state == .on && RemovePassCheckBox.state == .on {
                             patched4 = patchBytesRaw (file: patched3, toReplace: vssFillBytes, start: nvramStartOffset, end: (nvramEndOffset - 1))
-                        } else if CleanMeRadioButton.state == .on && ChangeSerialRadioButton.state == .off && RemovePassRadioButton.state == .on {
+                        } else if CleanMeCheckBox.state == .on && ChangeSerialCheckBox.state == .off && RemovePassCheckBox.state == .on {
                             patched4 = patchBytesRaw (file: patched3, toReplace: vssFillBytes, start: nvramStartOffset, end: (nvramEndOffset - 1))
-                        } else if CleanMeRadioButton.state == .off && ChangeSerialRadioButton.state == .on && RemovePassRadioButton.state == .on {
+                        } else if CleanMeCheckBox.state == .off && ChangeSerialCheckBox.state == .on && RemovePassCheckBox.state == .on {
                             patched4 = patchBytesRaw (file: patched3, toReplace: vssFillBytes, start: nvramStartOffset, end: (nvramEndOffset - 1))
-                        } else if CleanMeRadioButton.state == .on && ChangeSerialRadioButton.state == .on && RemovePassRadioButton.state == .off {
+                        } else if CleanMeCheckBox.state == .on && ChangeSerialCheckBox.state == .on && RemovePassCheckBox.state == .off {
                             patched4 = patchBytesRaw (file: patched2, toReplace: vssFillBytes, start: nvramStartOffset, end: (nvramEndOffset - 1))
-                        } else if CleanMeRadioButton.state == .on && ChangeSerialRadioButton.state == .off && RemovePassRadioButton.state == .off {
+                        } else if CleanMeCheckBox.state == .on && ChangeSerialCheckBox.state == .off && RemovePassCheckBox.state == .off {
                             patched4 = patchBytesRaw (file: patched1, toReplace: vssFillBytes, start: nvramStartOffset, end: (nvramEndOffset - 1))
-                        } else if CleanMeRadioButton.state == .off && ChangeSerialRadioButton.state == .on && RemovePassRadioButton.state == .off {
+                        } else if CleanMeCheckBox.state == .off && ChangeSerialCheckBox.state == .on && RemovePassCheckBox.state == .off {
                             patched4 = patchBytesRaw (file: patched2, toReplace: vssFillBytes, start: nvramStartOffset, end: (nvramEndOffset - 1))
                         } else {
                             patched4 = patchBytesRaw (file: data, toReplace: vssFillBytes, start: nvramStartOffset, end: (nvramEndOffset - 1))
@@ -760,11 +756,11 @@ class ViewController: NSViewController {
                 // If Error Handler NOT Activate and Choice Selection Activate
                 // Begin formulating final data to write to file
                 if errorActivated == false && choiceMade == true{
-                    if CleanMeRadioButton.state == .on && ChangeSerialRadioButton.state == .off && RemovePassRadioButton.state == .off && ClearNVRamRadioButton.state == .off {
+                    if CleanMeCheckBox.state == .on && ChangeSerialCheckBox.state == .off && RemovePassCheckBox.state == .off && ClearNVRamCheckBox.state == .off {
                         finalPatched = patched1
-                    } else if ChangeSerialRadioButton.state == .on && RemovePassRadioButton.state == .off && ClearNVRamRadioButton.state == .off {
+                    } else if ChangeSerialCheckBox.state == .on && RemovePassCheckBox.state == .off && ClearNVRamCheckBox.state == .off {
                         finalPatched = patched2
-                    } else if RemovePassRadioButton.state == .on && ClearNVRamRadioButton.state == .off {
+                    } else if RemovePassCheckBox.state == .on && ClearNVRamCheckBox.state == .off {
                         finalPatched = patched3
                     } else {
                         finalPatched = patched4
@@ -819,11 +815,11 @@ class ViewController: NSViewController {
         filename_field.stringValue = ""
         mefilename_field.stringValue = ""
         serial_field.stringValue = ""
-        VerifyDumpRadioButton.state = .off
-        ChangeSerialRadioButton.state = .off
-        CleanMeRadioButton.state = .off
-        RemovePassRadioButton.state = .off
-        ClearNVRamRadioButton.state = .off
+        VerifyDumpCheckBox.state = .off
+        ChangeSerialCheckBox.state = .off
+        CleanMeCheckBox.state = .off
+        RemovePassCheckBox.state = .off
+        ClearNVRamCheckBox.state = .off
         outputWindow.textStorage?.append(NSAttributedString(string: "All Options Cleared / Reset" + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.green ]))
         outputWindow.scrollToEndOfDocument(nil)
         
