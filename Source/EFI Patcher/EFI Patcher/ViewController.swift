@@ -509,9 +509,14 @@ class ViewController: NSViewController {
                 
                 // Begin Patching Process
                 // Print that patching has begun
-                if errorActivated == false {
+                if errorActivated == false && CleanMeRadioButton.state == .on || ChangeSerialRadioButton.state == .on || RemovePassRadioButton.state == .on || ClearNVRamRadioButton.state == .on {
                     outputWindow.textStorage?.append(NSAttributedString(string: "Patching..." + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.headerTextColor ]))
                     outputWindow.scrollToEndOfDocument(nil)
+                } else {
+                    errorActivated = true
+                    outputWindow.textStorage?.append(NSAttributedString(string: "No patching options enabled" + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.red ]))
+                    outputWindow.scrollToEndOfDocument(nil)
+                
                 }
                 
                 // If ME Region Patch Radio Button on and no error activate
@@ -540,9 +545,11 @@ class ViewController: NSViewController {
                         let meRegionV3 = Data(bytes: &meRegionBytesV3, count: meRegionBytesV3.count)
                         
                         // Search for ME Region Offset
+                        print ("Looking for Initial ME Region offset")
                         let meRegionOffset = findInitialMeRegionOffset (file: data, searchItem1: meRegionV1, searchItem2: meRegionV2, searchItem3: meRegionV3)
                         
                         // Clean ME Region (replace with *.rgn or *.bin file)
+                        print ("trying to patch")
                         patched1 = patchBytesRaw (file: data, toReplace: meDataPtr, start: meRegionOffset, end: (meSize + meRegionOffset))
                         
                         // Print ME Patch Status
@@ -550,16 +557,23 @@ class ViewController: NSViewController {
                         outputWindow.scrollToEndOfDocument(nil)
                         
                     // If Me Region File Path Empty:
-                    } else {
+                    } else if mefilename_field.stringValue == ""{
                         // Activate Error handler
                         errorActivated = true
                         // Print Error Message
                         outputWindow.textStorage?.append(NSAttributedString(string: "Error: No ME Region File Selected" + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.red ]))
                         outputWindow.scrollToEndOfDocument(nil)
                     }
+                    else if mefilename_field.stringValue != ""{
+                        // Activate Error handler
+                        errorActivated = true
+                        // Print Error Message
+                        outputWindow.textStorage?.append(NSAttributedString(string: "Error: ME region not found / not supported" + "\n", attributes: [ NSAttributedString.Key.foregroundColor : NSColor.red ]))
+                        outputWindow.scrollToEndOfDocument(nil)
+                    }
                 }
                 
-                // If Change Serial # Radio Button on and no error activate
+                // If Change Serial # checkbox on and no error activate
                 // Begin patching Serial & Correcting CRC32 for new Serial
                 if ChangeSerialRadioButton.state == .on && errorActivated == false {
                     // Activate Choice Selection Counter

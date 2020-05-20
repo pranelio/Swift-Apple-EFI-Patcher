@@ -68,6 +68,7 @@ func searchArray (mainArray: [UInt8], searchSequence: [UInt8]) -> Int {// change
 func findInitialMeRegionOffset (file: NSData, searchItem1: Data, searchItem2: Data, searchItem3: Data) -> Int {
     let searchRange = NSMakeRange(0, file.count)
     let foundRange = file.range(of: searchItem1, in: searchRange)
+    print ("looking for the first range")
     let location = NSNotFound
     if foundRange.location != NSNotFound {
         let location = foundRange.location
@@ -75,6 +76,7 @@ func findInitialMeRegionOffset (file: NSData, searchItem1: Data, searchItem2: Da
     }
     else if foundRange.location == NSNotFound {
         let foundRange = file.range(of: searchItem2, in: searchRange)
+        print ("looking for the second range")
         if foundRange.location != NSNotFound {
             let location = foundRange.location
             return location
@@ -82,10 +84,17 @@ func findInitialMeRegionOffset (file: NSData, searchItem1: Data, searchItem2: Da
     }
     else if foundRange.location == NSNotFound {
         let foundRange = file.range(of: searchItem3, in: searchRange)
+        print ("looking for the third range")
         if foundRange.location != NSNotFound {
             let location = foundRange.location
             return location
         }
+    }
+    else if foundRange.location == NSNotFound {
+        print ("range not found")
+
+        let meNotFound = 1
+        return meNotFound
     }
     return location
 }
